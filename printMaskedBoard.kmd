@@ -1,0 +1,116 @@
+KMD
+00000000: EA000045    ;         B main
+00000004: 20 20 20 31 ; row     DEFB "   1  2  3  4",0
+00000008: 20 20 32 20 ; 
+0000000C: 20 33 20 20 ; 
+00000010: 34 00       ; 
+00000012: 20 20 00    ; space   DEFB "  ",0
+00000015: 0A 00       ; gap     DEFB "\n",0
+00000017: 00000003    ; board   DEFW    3, 1, 4, 7, 5, 1, 7, 6, 6, 0, 2, 5, 0, 4, 2, 3
+0000001B: 00000001    ; 
+0000001F: 00000004    ; 
+00000023: 00000007    ; 
+00000027: 00000005    ; 
+0000002B: 00000001    ; 
+0000002F: 00000007    ; 
+00000033: 00000006    ; 
+00000037: 00000006    ; 
+0000003B: 00000000    ; 
+0000003F: 00000002    ; 
+00000043: 00000005    ; 
+00000047: 00000000    ; 
+0000004B: 00000004    ; 
+0000004F: 00000002    ; 
+00000053: 00000003    ; 
+00000057:             ; 
+00000058:             ;                 ALIGN
+00000058:             ; 
+00000058:             ; ; printMaskedBoard -- print the board with only the squares in R1 and R2 visible
+00000058:             ; ; Input: R0 <-- Address of board
+00000058:             ; ;        R1 <-- Number of Cell to reveal
+00000058:             ; ;        R2 <-- Number of Cell to reveal
+00000058:             ; 
+00000058:             ; 
+00000058:             ;     ; Insert your implementation of printMaskedBoard here.
+00000058:             ; 
+00000058:             ; 
+00000058:             ; 
+00000058: E24F004E    ; PRINTR          ADR R0,space
+0000005C: EF000003    ;                 SWI  3
+00000060: E3A05001    ;                 MOV R5,#1
+00000064:             ; 
+00000064: E1560001    ; test            CMP R6,R1
+00000068: 0A000005    ;                 BEQ Astrix
+0000006C: E1560002    ;                 CMP R6,R2
+00000070: 0A000003    ;                 BEQ Astrix
+00000074: EAFFFFFF    ;                 B mask
+00000078:             ; 
+00000078: E3A0002A    ; mask            MOV R0,#'*'
+0000007C: EF000000    ;                 SWI 0
+00000080: EA000004    ;                 B COMP 
+00000084:             ; 
+00000084:             ; 
+00000084:             ; 
+00000084: E24F0075    ; Astrix          ADR R0, board 
+00000088: E0040396    ;                 MUL R4,R6,R3    
+0000008C: E7D00004    ;                 LDRB R0,[R0,R4]
+00000090: E2800041    ;                 ADD R0,R0,#'A'
+00000094: EF000000    ;                 SWI 0
+00000098: E24F008E    ; COMP            ADR R0,space
+0000009C: EF000003    ;                 SWI 3
+000000A0: E2866001    ;                 ADD R6,R6,#1
+000000A4: E2855001    ;                 ADD R5,R5,#1
+000000A8: E3550004    ;                 CMP R5,#4
+000000AC: DAFFFFEC    ;                 BLE test
+000000B0: E1A0F00E    ;                 MOV PC,R14
+000000B4:             ; 
+000000B4:             ; 
+000000B4:             ; 
+000000B4: E1A0D00E    ; printMaskedBoard MOV R13,R14
+000000B8: E3A03004    ;                 MOV R3,#4           
+000000BC: E3A06000    ;                 MOV R6,#0
+000000C0: E24F00C4    ;                 ADR R0,row
+000000C4: EF000003    ;                 SWI 3
+000000C8: E24F00BB    ;                 ADR R0,gap
+000000CC: EF000003    ;                 SWI 3
+000000D0: E3A00041    ;                 MOV R0,#'A'
+000000D4: EF000000    ;                 SWI 0
+000000D8: EBFFFFDE    ;                 BL PRINTR
+000000DC: E24F00CF    ;                 ADR R0,gap
+000000E0: EF000003    ;                 SWI 3
+000000E4: E3A00042    ;                 MOV R0,#'B'
+000000E8: EF000000    ;                 SWI 0
+000000EC: EBFFFFD9    ;                 BL PRINTR
+000000F0: E24F00E3    ;                 ADR R0,gap
+000000F4: EF000003    ;                 SWI 3
+000000F8: E3A00043    ;                 MOV R0,#'C'
+000000FC: EF000000    ;                 SWI 0
+00000100: EBFFFFD4    ;                 BL PRINTR
+00000104: E24F00F7    ;                 ADR R0,gap
+00000108: EF000003    ;                 SWI 3
+0000010C: E3A00044    ;                 MOV R0,#'D'
+00000110: EF000000    ;                 SWI 0
+00000114: EBFFFFCF    ;                 BL PRINTR
+00000118: E1A0F00D    ;                 MOV PC,R13
+0000011C:             ; 
+0000011C: E24F000D    ; main            ADRL R0, board 
+00000120: E2400C01    ; 
+00000124: E3A01002    ;                 MOV R1, #2
+00000128: E3A0200F    ;                 MOV R2, #15
+0000012C: EBFFFFE0    ;                 BL printMaskedBoard
+00000130: EF000002    ;                 SWI 2
+00000134:             ; 
+00000134:             ; 
+
+Symbol Table: Labels
+: row                               00000004  Local -- ARM
+: space                             00000012  Local -- ARM
+: gap                               00000015  Local -- ARM
+: board                             00000017  Local -- ARM
+: PRINTR                            00000058  Local -- ARM
+: test                              00000064  Local -- ARM
+: mask                              00000078  Local -- ARM
+: Astrix                            00000084  Local -- ARM
+: COMP                              00000098  Local -- ARM
+: printMaskedBoard                  000000B4  Local -- ARM
+: main                              0000011C  Local -- ARM

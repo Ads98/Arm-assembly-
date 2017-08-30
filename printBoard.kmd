@@ -1,0 +1,85 @@
+KMD
+00000000: EA00003D    ;         B main
+00000004: 20 20 20 31 ; row     DEFB "   1  2  3  4",0
+00000008: 20 20 32 20 ; 
+0000000C: 20 33 20 20 ; 
+00000010: 34 00       ; 
+00000012: 20 20 00    ; space   DEFB "  ",0
+00000015: 0A 00       ; gap     DEFB "\n",0
+00000017: 00000003    ; board   DEFW    3, 1, 4, 7, 5, 1, 7, 6, 6, 0, 2, 5, 0, 4, 2, 3
+0000001B: 00000001    ; 
+0000001F: 00000004    ; 
+00000023: 00000007    ; 
+00000027: 00000005    ; 
+0000002B: 00000001    ; 
+0000002F: 00000007    ; 
+00000033: 00000006    ; 
+00000037: 00000006    ; 
+0000003B: 00000000    ; 
+0000003F: 00000002    ; 
+00000043: 00000005    ; 
+00000047: 00000000    ; 
+0000004B: 00000004    ; 
+0000004F: 00000002    ; 
+00000053: 00000003    ; 
+00000057:             ; 
+00000058:             ;                 ALIGN
+00000058:             ; 
+00000058:             ; ; printBoard -- print the board 
+00000058:             ; ; Input: R0 <-- Address of board
+00000058:             ;     ; Insert your implementation here
+00000058: E24F004E    ; PRINTR          ADR R0,space
+0000005C: EF000003    ;                 SWI  3
+00000060: E3A01001    ;                 MOV R1,#1
+00000064: E24F0055    ; Astrix          ADR R0, board
+00000068: E0040392    ;                 MUL R4,R2,R3    
+0000006C: E7D00004    ;                 LDRB R0,[R0,R4]
+00000070: E2800041    ;                 ADD R0,R0,#'A'
+00000074: EF000000    ;                 SWI 0
+00000078: E2822001    ;                 ADD R2,R2,#1
+0000007C: E24F0072    ;                 ADR R0,space
+00000080: EF000003    ;                 SWI 3
+00000084: E2811001    ;                 ADD R1,R1,#1
+00000088: E3510004    ;                 CMP R1,#4
+0000008C: DAFFFFF4    ;                 BLE Astrix
+00000090: E1A0F00E    ;                 MOV PC,R14
+00000094: E1A0D00E    ; printBoard      MOV R13,R14     
+00000098: E3A03004    ;                 MOV R3,#4           
+0000009C: E3A02000    ;                 MOV R2,#0
+000000A0: E24F00A4    ;                 ADR R0,row
+000000A4: EF000003    ;                 SWI 3
+000000A8: E24F009B    ;                 ADR R0,gap
+000000AC: EF000003    ;                 SWI 3
+000000B0: E3A00041    ;                 MOV R0,#'A'
+000000B4: EF000000    ;                 SWI 0
+000000B8: EBFFFFE6    ;                 BL PRINTR
+000000BC: E24F00AF    ;                 ADR R0,gap
+000000C0: EF000003    ;                 SWI 3
+000000C4: E3A00042    ;                 MOV R0,#'B'
+000000C8: EF000000    ;                 SWI 0
+000000CC: EBFFFFE1    ;                 BL PRINTR
+000000D0: E24F00C3    ;                 ADR R0,gap
+000000D4: EF000003    ;                 SWI 3
+000000D8: E3A00043    ;                 MOV R0,#'C'
+000000DC: EF000000    ;                 SWI 0
+000000E0: EBFFFFDC    ;                 BL PRINTR
+000000E4: E24F00D7    ;                 ADR R0,gap
+000000E8: EF000003    ;                 SWI 3
+000000EC: E3A00044    ;                 MOV R0,#'D'
+000000F0: EF000000    ;                 SWI 0
+000000F4: EBFFFFD7    ;                 BL PRINTR
+000000F8: E1A0F00D    ;                 MOV PC,R13
+000000FC: E24F00ED    ; main            ADR R0, board 
+00000100: EBFFFFE3    ;                 BL printBoard
+00000104: EF000002    ;                 SWI 2
+00000108:             ; 
+
+Symbol Table: Labels
+: row                               00000004  Local -- ARM
+: space                             00000012  Local -- ARM
+: gap                               00000015  Local -- ARM
+: board                             00000017  Local -- ARM
+: PRINTR                            00000058  Local -- ARM
+: Astrix                            00000064  Local -- ARM
+: printBoard                        00000094  Local -- ARM
+: main                              000000FC  Local -- ARM
